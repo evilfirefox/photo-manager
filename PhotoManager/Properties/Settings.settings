@@ -17,5 +17,8 @@
     <Setting Name="TimestampFormat" Type="System.String" Scope="User">
       <Value Profile="(Default)">yyyyMMdd-HHmmss</Value>
     </Setting>
+    <Setting Name="Suffix" Type="System.String" Scope="User">
+      <Value Profile="(Default)">_</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -82,5 +82,17 @@ namespace PhotoManager.Properties {
                 this["TimestampFormat"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("_")]
+        public string Suffix {
+            get {
+                return ((string)(this["Suffix"]));
+            }
+            set {
+                this["Suffix"] = value;
+            }
+        }
     }
 }
