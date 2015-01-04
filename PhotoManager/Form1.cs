@@ -11,11 +11,15 @@ using System.Windows.Forms;
 
 namespace PhotoManager
 {
-    public partial class Form1 : Form
+    public partial class mainForm : Form
     {
-        public Form1()
+        public mainForm()
         {
-            InitializeComponent();           
+            InitializeComponent();
+            targetFolderText.Text = Properties.Settings.Default.SourcePath;
+            backupFolderText.Text = Properties.Settings.Default.BackupPath;
+            prefixText.Text = Properties.Settings.Default.Prefix;
+            backupSwitch.Checked = Properties.Settings.Default.BackupEnabled;
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -37,36 +41,71 @@ namespace PhotoManager
 
         private void button4_Click(object sender, EventArgs e)
         {
+            this.resetEnv();
             this.logInfo("Processing folder: " + targetFolderText.Text);
-            string[] photos = Directory.GetFiles(targetFolderText.Text);
-            int total = photos.Length;
-            int complete = 0;
-            this.logInfo(total + " files found.");
-            foreach (var item in photos)
+            try
             {
-                FileInfo info = new FileInfo(item);
-                this.logInfo("File: " + info.Name);
-                if (backupSwitch.Checked)
+                string[] photos = Directory.GetFiles(targetFolderText.Text);
+                int total = photos.Length;
+                int complete = 0;
+                this.logInfo(total + " files found.");
+                foreach (var item in photos)
                 {
-                    this.logInfo("File " + info.Name + " copied to " + backupFolderText.Text + " folder.");
-                    info.CopyTo(backupFolderText.Text + Path.DirectorySeparatorChar + info.Name);
+                    FileInfo info = new FileInfo(item);
+                    this.logInfo("File: " + info.Name);
+                    if (backupSwitch.Checked)
+                    {
+                        this.logInfo("File " + info.Name + " copied to " + backupFolderText.Text + " folder.");
+                        info.CopyTo(backupFolderText.Text + Path.DirectorySeparatorChar + info.Name);
+                    }
+                    string newPath = targetFolderText.Text + Path.DirectorySeparatorChar + info.Name + prefixText.Text + info.LastWriteTime.ToString(Properties.Settings.Default.TimestampFormat) + info.Extension;
+                    info.MoveTo(newPath);
+                    progress.Value = (++complete / total) * 100;
+                    this.logInfo("File updated.");
                 }
-                string newPath = targetFolderText.Text + Path.DirectorySeparatorChar + info.Name + prefixText.Text + info.LastWriteTime.ToString("yyyyMMdd") + info.Extension;
-                info.MoveTo(newPath);
-                progress.Value = (++complete / total) * 100;
-                this.logInfo("File updated.");
+                this.logInfo(complete + " of " + total + " files renamed.");
             }
-            this.logInfo(complete + " of " + total + " files renamed.");
+            catch (Exception ex)
+            {
+                this.logInfo("Error occured: " + ex.Message);
+            }
         }
 
         protected void logInfo(string message)
         {
             logText.Text += message + Environment.NewLine;
+            logText.SelectionStart = logText.Text.Length;
+            logText.ScrollToCaret();
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             backupFolderText.Enabled = backupFolderButton.Enabled = backupSwitch.Checked;
+            Properties.Settings.Default.BackupEnabled = backupSwitch.Checked;
+        }
+
+        private void targetFolderText_TextChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.SourcePath = folderBrowserDialog1.SelectedPath = targetFolderText.Text;
+            this.resetEnv();
+        }
+
+        protected void resetEnv()
+        {
+            logText.Text = "";
+            progress.Value = 0;
+        }
+
+        private void prefixText_TextChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Prefix = prefixText.Text;
+            this.resetEnv();
+        }
+
+        private void backupFolderText_TextChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.BackupPath = folderBrowserDialog2.SelectedPath = backupFolderText.Text;
+            this.resetEnv();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace PhotoManager
 {
-    partial class Form1
+    partial class mainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.backupSwitch = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.backupFolderButton = new System.Windows.Forms.Button();
             this.targetFolderButton = new System.Windows.Forms.Button();
@@ -44,7 +45,6 @@
             this.progress = new System.Windows.Forms.ProgressBar();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.folderBrowserDialog2 = new System.Windows.Forms.FolderBrowserDialog();
-            this.backupSwitch = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -66,6 +66,16 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Settings";
+            // 
+            // backupSwitch
+            // 
+            this.backupSwitch.AutoSize = true;
+            this.backupSwitch.Location = new System.Drawing.Point(105, 75);
+            this.backupSwitch.Name = "backupSwitch";
+            this.backupSwitch.Size = new System.Drawing.Size(15, 14);
+            this.backupSwitch.TabIndex = 8;
+            this.backupSwitch.UseVisualStyleBackColor = true;
+            this.backupSwitch.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // label3
             // 
@@ -104,7 +114,7 @@
             this.backupFolderText.Name = "backupFolderText";
             this.backupFolderText.Size = new System.Drawing.Size(196, 20);
             this.backupFolderText.TabIndex = 4;
-            this.backupFolderText.Text = "F:\\tmp\\test\\backup";
+            this.backupFolderText.TextChanged += new System.EventHandler(this.backupFolderText_TextChanged);
             // 
             // label2
             // 
@@ -121,7 +131,7 @@
             this.prefixText.Name = "prefixText";
             this.prefixText.Size = new System.Drawing.Size(251, 20);
             this.prefixText.TabIndex = 2;
-            this.prefixText.Text = "__";
+            this.prefixText.TextChanged += new System.EventHandler(this.prefixText_TextChanged);
             // 
             // targetFolderText
             // 
@@ -129,16 +139,16 @@
             this.targetFolderText.Name = "targetFolderText";
             this.targetFolderText.Size = new System.Drawing.Size(217, 20);
             this.targetFolderText.TabIndex = 1;
-            this.targetFolderText.Text = "F:\\tmp\\test";
+            this.targetFolderText.TextChanged += new System.EventHandler(this.targetFolderText_TextChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(6, 23);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(67, 13);
+            this.label1.Size = new System.Drawing.Size(70, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Target folder";
+            this.label1.Text = "Source folder";
             // 
             // exitButton
             // 
@@ -193,17 +203,7 @@
             // 
             this.folderBrowserDialog1.RootFolder = System.Environment.SpecialFolder.MyComputer;
             // 
-            // backupSwitch
-            // 
-            this.backupSwitch.AutoSize = true;
-            this.backupSwitch.Location = new System.Drawing.Point(105, 75);
-            this.backupSwitch.Name = "backupSwitch";
-            this.backupSwitch.Size = new System.Drawing.Size(15, 14);
-            this.backupSwitch.TabIndex = 8;
-            this.backupSwitch.UseVisualStyleBackColor = true;
-            this.backupSwitch.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
-            // 
-            // Form1
+            // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -213,7 +213,7 @@
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
-            this.Name = "Form1";
+            this.Name = "mainForm";
             this.Text = "photo-manager";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
