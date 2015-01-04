@@ -58,7 +58,8 @@ namespace PhotoManager
                         this.logInfo("File " + info.Name + " copied to " + backupFolderText.Text + " folder.");
                         info.CopyTo(backupFolderText.Text + Path.DirectorySeparatorChar + info.Name);
                     }
-                    string newPath = targetFolderText.Text + Path.DirectorySeparatorChar + info.Name + prefixText.Text + info.LastWriteTime.ToString(Properties.Settings.Default.TimestampFormat) + info.Extension;
+                    string name = info.Name.Replace(info.Extension, "");
+                    string newPath = targetFolderText.Text + Path.DirectorySeparatorChar + prefixText.Text + Properties.Settings.Default.Suffix + info.LastWriteTime.ToString(Properties.Settings.Default.TimestampFormat) + Properties.Settings.Default.Suffix + name + info.Extension;
                     info.MoveTo(newPath);
                     progress.Value = (++complete / total) * 100;
                     this.logInfo("File updated.");
